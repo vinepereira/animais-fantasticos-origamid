@@ -101,6 +101,10 @@ html.textomaior {
     grid-column: 2;
 }
 
+.animais-lista li img {
+    cursor: pointer;
+}
+
 .animais-lista::-webkit-scrollbar {
     width: 18px;
 }
@@ -215,11 +219,65 @@ html.textomaior {
     }
 }
 
-.azul {
-    background-color: blue;
+.js .js-tabcontent section {
+    display: none;
 }
 
-.vermelho {
-    background-color: red;
+.js-tabcontent section.ativo {
+    display: block !important;
+    animation: show 1s forwards;
 }
 
+@keyframes show {
+    from {
+        opacity: 0;
+        transform: translate3d(-30px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0px);
+    }
+}
+
+.js .js-accordion dd {
+    display: none;
+}
+
+.js-accordion dt::after {
+    content: '⬎';
+    margin-left: 10px;   
+}
+
+.js-accordion dt.ativo::after {
+    content: '⬏';
+    margin-left: 10px;
+}
+
+.js-accordion dd.ativo {
+    display: block;
+    animation: slideDown .5s forwards;
+}
+
+
+@keyframes slideDown {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+
+    to {
+        max-height: 200px;
+        opacity: 1;
+    }
+}
+
+.js .js-scroll {
+    opacity: 0;
+    transform: translate3d(-30px,0,0);
+    transition: 1s;
+}
+
+.js .js-scroll.ativo {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+}

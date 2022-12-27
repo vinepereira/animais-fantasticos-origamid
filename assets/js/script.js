@@ -1,47 +1,95 @@
-// Quando o usuário clicar nos links internos do site,
-// adicione a classe ativo ao item clicado e remova dos
-// demais itens caso eles possuam a mesma. Previna
-// o comportamento padrão desses links
-const linksInternos = document.querySelectorAll('a[href^="#"]');
+/* Navegação por tab, clica na imagem mostra o conteúdo relacionado */
+const initTabNav = () => {
+    const tabMenu = document.querySelectorAll('.js-tabmenu li');
+    const tabContent = document.querySelectorAll('.js-tabcontent section');
 
-function handleClick(event) {
-    event.preventDefault();
+    if (tabMenu.length && tabContent.length) {
+        tabContent[0].classList.add('ativo'); // deixa a primeira seção sempre ativada
 
-    linksInternos.forEach(item => {
-        item.classList.remove('ativo');
-    })
+        const activeTab = (index) => {
+            tabContent.forEach(section => {
+                section.classList.remove('ativo');
+            })
+            tabContent[index].classList.add('ativo');
+        }
 
-    this.classList.toggle('ativo');
-}
-
-linksInternos.forEach(item => {
-    item.addEventListener('click', handleClick);
-})
-// Selecione todos os elementos do site começando a partir do body,
-// ao clique mostre exatamente quais elementos estão sendo clicados
-const allElements = document.querySelectorAll('body *');
-
-function mostrarElemento(event) {
-    // console.log(event.currentTarget); // pode usar este também
-    event.preventDefault();
-    console.log(event.target.remove());
-}
-
-allElements.forEach(item => {
-    item.addEventListener('click', mostrarElemento)
-})
-
-// Utilizando o código anterior, ao invés de mostrar no console,
-// remova o elemento que está sendo clicado, o método remove() remove um elemento
-
-// Se o usuário clicar na tecla (t), aumente todo o texto do site. 
-const html = document.documentElement;
-
-const aumentaFonte = (event) => {
-    if(event.key === 't') {
-        html.classList.toggle('textomaior');
-    } else {
-        console.log(event.key)
+        tabMenu.forEach((img, indexador) => {
+            img.addEventListener('click', () => {
+                activeTab(indexador); // chama a função e passa um parametro que vai servir para o tabContent[index]
+            })
+        })
     }
 }
-html.addEventListener('keydown', aumentaFonte);
+initTabNav();
+
+/* Adiciona um accordion ao FAQ */
+const initAccordion = () => {
+    const accordionList = document.querySelectorAll('.js-accordion dt');
+    const activeClass = 'ativo'
+    if (accordionList.length) {
+        accordionList[0].classList.add(activeClass);
+        accordionList[0].nextElementSibling.classList.add(activeClass);
+        function activeAccordion() {
+            this.classList.toggle(activeClass);
+            this.nextElementSibling.classList.toggle(activeClass);
+        }
+
+        accordionList.forEach(item => {
+            item.addEventListener('click', activeAccordion);
+        })
+    }
+}
+initAccordion();
+
+/* Adiciona click aos links internos e faz uma rolagem suave até a seção  */
+const initScrollSmooth = () => {
+    const linksInterno = document.querySelectorAll('.js-menu a[href^="#"]');
+    if (linksInterno.length) {
+
+        function scrollToSection(event) {
+            event.preventDefault();
+            const href = event.currentTarget.getAttribute('href');
+            const section = document.querySelector(href);
+
+            section.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            })
+
+            /* const topo = section.offsetTop;
+            window.scrollTo({
+                top: topo,
+                behavior: 'smooth'
+            }) */
+        }
+
+        linksInterno.forEach(link => {
+            link.addEventListener('click', scrollToSection)
+        });
+    }
+}
+initScrollSmooth();
+
+/* Anima as sections ao fazer scroll */
+const initAnimationScroll = () => {
+    const sections = document.querySelectorAll('.js-scroll');
+    const windowCalcule = window.innerHeight * 0.7;
+
+    if (sections.length) {
+        sections[0].classList.add('ativo');
+        function animaScroll() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const isSectionVisible = (sectionTop - windowCalcule) < 0;
+                // console.log (sectionTop);
+                if (isSectionVisible)
+                    section.classList.add('ativo');
+                else
+                    section.classList.remove('ativo');
+            })
+        }
+    }
+
+    window.addEventListener('scroll', animaScroll);
+}
+initAnimationScroll();
