@@ -21,6 +21,12 @@ Primeiro projeto realizado no curso de JavaScript na Origamid. Até este momento
 - window.onload = function() (Ele irá executar após todos os recursos do documento carregarem)
 - Animações com scrollTo() e scrollIntoView()
 
+# Eventos do JavaScript inserido na página:
+- Animação da tela aos 70% da tela de rolagem (da tela do usuário).
+- Imagens com evento de clique acionam seu conteúdo relacionado.
+- Accordion no FAQ
+- Scroll suave quando clicado em links na barra do menu do cabeçalho.
+
 # Tecnologias:
 - HTML
 - CSS
